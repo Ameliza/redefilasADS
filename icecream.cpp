@@ -41,7 +41,7 @@ public:
     // Execute event by invoking this method.
     virtual void processEvent () = 0;
 
-    const unsigned int time;
+    const unsigned int time; // tempo em que o evento vai acontecer
 };
 
 struct eventComparator {
@@ -72,10 +72,10 @@ void simulation::run () {
 
     while (! eventQueue.empty ()) {
 
-        event * nextEvent = eventQueue.top ();
-        eventQueue.pop ();
-        time = nextEvent->time;
-        nextEvent->processEvent ();
+        event * nextEvent = eventQueue.top (); // pega o evento mais antigo
+        eventQueue.pop (); // retira ele da fila
+        time = nextEvent->time; // atualiza o tempo de simulação
+        nextEvent->processEvent (); 
         delete nextEvent;
     }
 }
@@ -148,7 +148,7 @@ int irand (int n)
 void arriveEvent::processEvent () {
 
     if (theSimulation.canSeat (size))
-        theSimulation.scheduleEvent
+        theSimulation.scheduleEvent // escalona o evento (coloca ele na fila de eventos)
             (new orderEvent (time + 1 + irand (4), size));
 }
 
